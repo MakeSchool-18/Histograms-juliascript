@@ -16,14 +16,21 @@ class Dictogram(dict):
 
     def update(self, iterable):
         """Update this histogram with the items in the given iterable"""
-        for item in iterable:
-            # TODO: increment item count
-            pass
+        for word in iterable:
+            if word in self:
+                self[word] = self[word] + 1
+                self.tokens += 1
+            else:
+                self[word] = 1
+                self.types += 1
+                self.tokens += 1
 
     def count(self, item):
         """Return the count of the given item in this histogram, or 0"""
-        # TODO: retrieve item count
-        pass
+        if item in self: 
+            return self[item]
+        else: 
+            return 0
 
 
 class Listogram(list):
@@ -39,23 +46,38 @@ class Listogram(list):
     def update(self, iterable):
         """Update this histogram with the items in the given iterable"""
         for item in iterable:
-            # TODO: increment item count
-            pass
+            if item in self:
+                index = self._index(item)
+                count = self[index][1]
+                self[index] = (item, count + 1)
+                self.tokens += 1
+            else: 
+                self.append((item, 1))
+                self.types += 1
+                self.tokens += 1
 
     def count(self, item):
         """Return the count of the given item in this histogram, or 0"""
-        # TODO: retrieve item count
-        pass
+        index = self._index(item)
+        if index >= 0:
+            return self[index][1]
+        return 0
+
 
     def __contains__(self, item):
         """Return True if the given item is in this histogram, or False"""
-        # TODO: check if item is in histogram
-        pass
+        for element in self:
+            if element[0] == item:
+                return True
+        else: 
+            return False
 
     def _index(self, target):
         """Return the index of the (target, count) entry if found, or None"""
-        # TODO: implement linear search to find an item's index
-        pass
+        for i in range(len(self)):
+            if self[i][0] == target:
+                return i 
+        return None
 
 
 def test_histogram(text_list):

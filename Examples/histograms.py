@@ -59,7 +59,7 @@ class Listogram(list):
     def count(self, item):
         """Return the count of the given item in this histogram, or 0"""
         index = self._index(item)
-        if index >= 0:
+        if index != None:
             return self[index][1]
         return 0
 
